@@ -1,0 +1,1 @@
+生成protobuf文件：protoc --go_out=. Person.proto
