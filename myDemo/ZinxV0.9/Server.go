@@ -47,12 +47,31 @@ func DoConnectionBegin(conn ziface.IConnection) {
 	if err := conn.SendMsg(200, []byte("DoConnectionBegin...")); err != nil {
 		fmt.Println(err)
 	}
+	//设置一些链接属性
+	fmt.Println("Set conn property...")
+	conn.SetProperty("Name", "姓名")
+	conn.SetProperty("GithHub", "仓库")
+	conn.SetProperty("Home", "家")
+	conn.SetProperty("Blog", "博客")
 }
 
 // 链接断开之前的需要执行的钩子函数
 func DoConnectionLost(conn ziface.IConnection) {
 	fmt.Println("DoConnectionLost is Called ... ")
 	fmt.Println("conn Id = ", conn.GetConnID(), " is Lost ... ")
+	//获取链接属性
+	if value, err := conn.GetProperty("Name"); err == nil {
+		fmt.Println("Name = ", value)
+	}
+	if value, err := conn.GetProperty("GithHub"); err == nil {
+		fmt.Println("GithHub = ", value)
+	}
+	if value, err := conn.GetProperty("Home"); err == nil {
+		fmt.Println("Home = ", value)
+	}
+	if value, err := conn.GetProperty("Blog"); err == nil {
+		fmt.Println("Blog = ", value)
+	}
 }
 func main() {
 	//1 创建一个server句柄,使用Zinx的api
