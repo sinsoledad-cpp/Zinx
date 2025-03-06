@@ -26,3 +26,8 @@ message Broadcast {
         int32 ActionData = 5;  //玩家具体的动作
     }
 }
+
+//世界聊天
+message Talk {
+    string Content = 1;
+}
