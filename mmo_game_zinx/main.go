@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/aceld/zinx/zdecoder"
+	"github.com/aceld/zinx/ziface"
+	"github.com/aceld/zinx/zpack"
 	"zinx/mmo_game_zinx/core"
-	"zinx/zinx/ziface"
-	"zinx/zinx/znet"
+
+	"github.com/aceld/zinx/znet"
 )
 
 // 当前客户端建立连接之后的hook函数
@@ -20,13 +23,19 @@ func OnConnectionAdd(conn ziface.IConnection) {
 
 func main() {
 	//创建服务器句柄
-	s := znet.NewServer("MMO Game Zinx")
+	s := znet.NewServer()
+
+	//s.SetDecoder(zdecoder.NewLTV_Little_Decoder())
+	//s.SetPacket(zpack.NewDataPackLtv())
 
 	//链接创建和销毁的HOOK钩子函数
 	s.SetOnConnStart(OnConnectionAdd)
 
 	//注册一些路由业务
-
+	// Add LTV data format Decoder
+	s.SetDecoder(zdecoder.NewLTV_Little_Decoder())
+	// Add LTV data format Pack packet Encoder
+	s.SetPacket(zpack.NewDataPackLtv())
 	//启动服务
 	s.Serve()
 }
