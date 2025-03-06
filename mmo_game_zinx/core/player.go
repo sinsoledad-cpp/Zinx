@@ -2,11 +2,11 @@ package core
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
 	"github.com/golang/protobuf/proto"
 	"math/rand"
 	"sync"
 	"zinx/mmo_game_zinx/pb"
+	"zinx/zinx/ziface"
 )
 
 // 玩家对象
@@ -76,14 +76,14 @@ func (p *Player) SyncPid() {
 		Pid: p.Pid,
 	}
 	//将消息发送给客户端
-	p.SendMsg(0, proto_msg)
+	p.SendMsg(1, proto_msg)
 }
 
 // 广播玩家自己的出生地点
 func (p *Player) BroadCastStartPosition() {
 	//组建MsgID:200 的proto数据
 	proto_msg := &pb.Broadcast{
-		Tp:  1,
+		Tp:  2,
 		Pid: p.Pid,
 		Data: &pb.Broadcast_P{
 			P: &pb.Position{
