@@ -21,6 +21,8 @@ func OnConnectionAdd(conn ziface.IConnection) {
 	core.WorldMgrObj.AddPlayer(player)
 	//将该链接绑定一个Pid玩家ID的属性
 	conn.SetProperty("pid", player.Pid)
+	//同步周边玩家,告知他们当前玩家已经上线,广播当前玩家的位置信息
+	player.SyncSurrounding()
 	fmt.Println("===>>Player pid = ", player.Pid, " is arrived <<===")
 }
 
