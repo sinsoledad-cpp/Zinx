@@ -26,14 +26,27 @@ func OnConnectionAdd(conn ziface.IConnection) {
 	fmt.Println("===>>Player pid = ", player.Pid, " is arrived <<===")
 }
 
+// 给当前连接断开之前触发的hook钩子函数
+func OnConnectionLost(conn ziface.IConnection) {
+	//通过链接属性得到当前链接所绑定pid
+	pid, _ := conn.GetProperty("pid")
+	player := core.WorldMgrObj.GetPlayerByPid(pid.(int32))
+
+	//触发玩家下线的业务
+	player.Offline()
+	fmt.Println("======>> Player pid = ", pid, " is offline <<=====")
+
+}
 func main() {
 	//创建服务器句柄
 	s := znet.NewServer("zinx")
 
 	//链接创建和销毁的HOOK钩子函数
 	s.SetOnConnStart(OnConnectionAdd)
+	s.SetOnConnStop(OnConnectionLost)
 
 	s.AddRouter(2, &apis.WorldChatApi{})
+	s.AddRouter(3, &apis.MoveApi{})
 	//注册一些路由业务
 	//// Add LTV data format Decoder
 	//s.SetDecoder(zdecoder.NewLTV_Little_Decoder())

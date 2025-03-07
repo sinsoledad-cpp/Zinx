@@ -143,7 +143,7 @@ func (m *AOIManager) GetPidsByPos(x, y float32) (playerIDs []int) {
 	//将九宫格的信息里的全部的Player的id累加到playerIDs
 	for _, grid := range grids {
 		playerIDs = append(playerIDs, grid.GetPlayerIDs()...)
-		fmt.Printf("===>>grid ID: %d, pids %v ===", grid.GID, grid.GetPlayerIDs())
+		//fmt.Printf("===>>grid ID: %d, pids %v ===", grid.GID, grid.GetPlayerIDs())
 	}
 	return
 }
